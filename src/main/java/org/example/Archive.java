@@ -29,11 +29,12 @@ public class Archive {
         storage.forEach(System.out::println);
 
 
-        System.out.println("Result of ID");
+        System.out.println("Result of I D");
         Utility.findByISBN(storage.get(0).getCodISBN(), storage);
 
         System.out.println("Result of year of Publication");
         Utility.findByYearPublication(storage.get(0).getYearPublication(), storage);
+
 
         System.out.println("Result of Author");
         Utility.findByAuthor("author", storage);

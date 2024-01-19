@@ -18,6 +18,11 @@ public class Utility {
     static BiPredicate<Integer, Storage> correctyearPublication = (yearPublication, elem) -> elem.getYearPublication() == yearPublication;
     static BiPredicate<String, Book> correctAuthor = (autor, elem) -> elem.getAuthor().equals(autor);
 
+    public static Periodicity getRandomEnum(Class<Periodicity> enumeration) {
+        Random random = new Random();
+        Periodicity[] values = enumeration.getEnumConstants();
+        return values[random.nextInt(values.length)];
+    }
 
     static public void addElementBook(List<Storage> Storage) {
         Faker faker = new Faker(Locale.ITALY);
@@ -37,9 +42,10 @@ public class Utility {
         Faker faker = new Faker(Locale.ITALY);
         Random rnd = new Random();
         String title = faker.book().title();
-        int numPages = rnd.nextInt(30, 400);
+        int numPages = rnd.nextInt(10, 50);
 
-        Magazine magazine = new Magazine(title, numPages, Periodicity.MONTHLY);
+
+        Magazine magazine = new Magazine(title, numPages, getRandomEnum(Periodicity.class));
         Storage.add(magazine);
         System.out.println("Success add " + magazine);
     }
