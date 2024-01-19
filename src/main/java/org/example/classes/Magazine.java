@@ -7,4 +7,17 @@ public class Magazine extends Storage {
         super(title, numPages);
         this.periodicity = periodicity;
     }
+
+    public Enum getPeriodicity() {
+        return periodicity;
+    }
+
+    public void setPeriodicity(Enum periodicity) {
+        this.periodicity = periodicity;
+    }
+
+    @Override
+    public String toString() {
+        return "Magazine:" + "title='" + getTitle() + ", yearPublication=" + getYearPublication() + ", numPages=" + getNumPages() + ", periodicity=" + periodicity;
+    }
 }

@@ -16,6 +16,12 @@ public abstract class Storage {
         this.numPages = numPages;
     }
 
+    public Storage(String title, int yearPublication, int numPages) {
+        this.title = title;
+        this.yearPublication = yearPublication;
+        this.numPages = numPages;
+    }
+
     public long getCodISBN() {
         return codISBN;
     }
@@ -48,5 +54,13 @@ public abstract class Storage {
         this.numPages = numPages;
     }
 
-
+    @Override
+    public String toString() {
+        return "Storage{" +
+                "codISBN=" + codISBN +
+                ", title='" + title + '\'' +
+                ", yearPublication=" + yearPublication +
+                ", numPages=" + numPages +
+                '}';
+    }
 }
