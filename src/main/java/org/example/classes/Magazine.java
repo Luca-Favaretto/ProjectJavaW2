@@ -8,6 +8,12 @@ public class Magazine extends Storage {
         this.periodicity = periodicity;
     }
 
+    public Magazine(long codISBN, String title, int yearPublication, int numPages, Enum periodicity) {
+        super(codISBN, title, yearPublication, numPages);
+        this.periodicity = periodicity;
+    }
+
+
     public Enum getPeriodicity() {
         return periodicity;
     }

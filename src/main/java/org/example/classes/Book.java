@@ -12,6 +12,12 @@ public class Book extends Storage {
         this.type = type;
     }
 
+    public Book(long codISBN, String title, int yearPublication, int numPages, String author, String type) {
+        super(codISBN, title, yearPublication, numPages);
+        this.Author = author;
+        this.type = type;
+    }
+
     public String getAuthor() {
         return Author;
     }

@@ -16,7 +16,8 @@ public abstract class Storage {
         this.numPages = numPages;
     }
 
-    public Storage(String title, int yearPublication, int numPages) {
+    public Storage(long codISBN, String title, int yearPublication, int numPages) {
+        this.codISBN = codISBN;
         this.title = title;
         this.yearPublication = yearPublication;
         this.numPages = numPages;

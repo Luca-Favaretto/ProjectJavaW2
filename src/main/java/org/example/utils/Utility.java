@@ -1,40 +1,62 @@
 package org.example.utils;
 
+import com.github.javafaker.Faker;
+import org.apache.commons.io.FileUtils;
 import org.example.classes.Book;
 import org.example.classes.Magazine;
 import org.example.classes.Storage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiPredicate;
 
 public class Utility {
+
 
     static BiPredicate<Long, Storage> correctCodISBN = (codISBN, elem) -> elem.getCodISBN() == codISBN;
     static BiPredicate<Integer, Storage> correctyearPublication = (yearPublication, elem) -> elem.getYearPublication() == yearPublication;
     static BiPredicate<String, Book> correctAuthor = (autor, elem) -> elem.getAuthor().equals(autor);
 
 
-    static public void addElement(String title, int numPages, String autor, String type, List<Storage> Storage) {
-//        title = title;
-//        numPages = numPages;
-//        autor = autor;
-//        type = type;
+    static public void addElementBook(List<Storage> Storage) {
+        Faker faker = new Faker(Locale.ITALY);
+        Random rnd = new Random();
+        String title = faker.book().title();
+        int numPages = rnd.nextInt(30, 400);
+        String autor = faker.book().author();
+        String type = faker.book().genre();
         Book book = new Book(title, numPages, autor, type);
+
         Storage.add(book);
         System.out.println("Success add " + book);
     }
 
 
-    static public void addElement(String title, int numPages, Enum periodicity, List<Storage> Storage) {
-//        title = title;
-//        numPages = numPages;
-//        periodicity = periodicity;
-        Magazine magazine = new Magazine(title, numPages, periodicity);
+    static public void addElementsMagazine(List<Storage> Storage) {
+        Faker faker = new Faker(Locale.ITALY);
+        Random rnd = new Random();
+        String title = faker.book().title();
+        int numPages = rnd.nextInt(30, 400);
+
+        Magazine magazine = new Magazine(title, numPages, Periodicity.MONTHLY);
         Storage.add(magazine);
         System.out.println("Success add " + magazine);
+    }
+
+    static public void addElement(long codISBN, String title, int yearPublication, int numPages, String author, String type, List<Storage> Storage) {
+
+        Book book = new Book(codISBN, title, yearPublication, numPages, author, type);
+        Storage.add(book);
+
+    }
+
+
+    static public void addElement(long codISBN, String title, int yearPublication, int numPages, Enum periodicity, List<Storage> Storage) {
+
+        Magazine magazine = new Magazine(codISBN, title, yearPublication, numPages, periodicity);
+        Storage.add(magazine);
+
     }
 
 
@@ -42,7 +64,7 @@ public class Utility {
         if (storage.removeIf(elem -> correctCodISBN.test(codISBN, elem))) {
             System.out.println("Success remove");
         } else {
-            System.out.println("Didn't find book");
+            System.out.println("Didn't find");
         }
     }
 
@@ -71,31 +93,48 @@ public class Utility {
     static public void saveToDisk(List<Storage> storage) throws IOException {
         StringBuilder toWrite = new StringBuilder();
 
+
         for (Storage product : storage) {
-            toWrite.append(product.getTitle()).append("@").append(product.getYearPublication()).append("@").append(product.getNumPages()).append("#");
+            StringBuilder str = new StringBuilder();
+
+            if (product instanceof Book) {
+                str.append(((Book) product).getAuthor()).append("@")
+                        .append(((Book) product).getType());
+            }
+
+            if (product instanceof Magazine) {
+                str.append(((Magazine) product).getPeriodicity());
+
+            }
+
+            toWrite.append(product.getCodISBN()).append("@")
+                    .append(product.getTitle()).append("@")
+                    .append(product.getYearPublication()).append("@")
+                    .append(product.getNumPages()).append("@")
+                    .append(str)
+                    .append("#");
 
         }
-        File file = new File("products.txt");
+        File file = new File("prova.txt");
         FileUtils.writeStringToFile(file, toWrite.toString(), "UTF-8");
     }
 
-    static public List<Storage> findToDisk() {
-        File file = new File("products.txt");
-
+    static public List<Storage> findToDisk() throws IOException {
+        File file = new File("prova.txt");
         String fileString = FileUtils.readFileToString(file, "UTF-8");
-
         List<String> splitElementString = Arrays.asList(fileString.split("#"));
+        List<Storage> storage = new ArrayList<>();
 
-        return splitElementString.stream().map(stringa -> {
-
+        splitElementString.stream().forEach(stringa -> {
             String[] productInfos = stringa.split("@");
-            return new Storage(productInfos[0], productInfos[1], Double.parseDouble(productInfos[2])) {
-            };
-        }).toList();
+            if (productInfos.length == 5) {
+                addElement(Long.parseLong(productInfos[0]), productInfos[1], Integer.parseInt(productInfos[2]), Integer.parseInt(productInfos[3]), Periodicity.valueOf(productInfos[4]), storage);
+            } else if (productInfos.length == 6) {
+                addElement(Long.parseLong(productInfos[0]), productInfos[1], Integer.parseInt(productInfos[2]), Integer.parseInt(productInfos[3]), productInfos[4], productInfos[5], storage);
+            }
+        });
 
+        return storage;
     }
 }
-
-
-
 
