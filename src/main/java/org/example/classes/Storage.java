@@ -1,6 +1,5 @@
 package org.example.classes;
 
-import java.time.LocalDate;
 import java.util.Random;
 
 public abstract class Storage {
@@ -33,11 +32,11 @@ public abstract class Storage {
         this.title = title;
     }
 
-    public LocalDate getYearPublication() {
+    public int getYearPublication() {
         return yearPublication;
     }
 
-    public void setYearPublication(LocalDate yearPublication) {
+    public void setYearPublication(int yearPublication) {
         this.yearPublication = yearPublication;
     }
 

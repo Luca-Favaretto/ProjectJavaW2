@@ -1,4 +1,4 @@
-package org.example.utility;
+package org.example.utils;
 
 import org.example.classes.Book;
 import org.example.classes.Magazine;
@@ -9,28 +9,26 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 public class Utility {
+
     static BiPredicate<Long, Storage> correctCodISBN = (codISBN, elem) -> elem.getCodISBN() == codISBN;
 
 
-
     static public void addElement(String title, int numPages, String autor, String type, List<Storage> Storage) {
-        
-        title = "";
-        numPages = 20;
-        autor = "";
-        type = "";
+        title = title;
+        numPages = numPages;
+        autor = autor;
+        type = type;
         Book book = new Book(title, numPages, autor, type);
         Storage.add(book);
         System.out.println("Success add " + book);
-
     }
 
     ;
 
     static public void addElement(String title, int numPages, Enum periodicity, List<Storage> Storage) {
-        title = "";
-        numPages = 20;
-        periodicity = Periodicity.MENSILE;
+        title = title;
+        numPages = numPages;
+        periodicity = periodicity;
         Magazine magazine = new Magazine(title, numPages, periodicity);
         Storage.add(magazine);
         System.out.println("Success add " + magazine);
@@ -48,9 +46,11 @@ public class Utility {
 
     ;
 
-    static public void findByISBN(long codISBN, List<Storage> Storage) {
-        Storage
-
+    static public Storage findByISBN(long codISBN, List<Storage> Storage) {
+        List<Storage> list = Storage.stream().filter(elem -> correctCodISBN.test(codISBN, elem)).toList();
+        Storage elem = list.get(0);
+        System.out.println("Find" + elem);
+        return elem;
     }
 
     ;
