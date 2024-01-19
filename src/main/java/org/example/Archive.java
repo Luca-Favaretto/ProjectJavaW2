@@ -13,7 +13,8 @@ public class Archive {
     static private List<Storage> storage = new ArrayList<>();
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+
         final Logger logger = LoggerFactory.getLogger(Archive.class);
 
         for (int i = 0; i < 2; i++) {
