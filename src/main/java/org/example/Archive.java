@@ -2,6 +2,8 @@ package org.example;
 
 import org.example.classes.Storage;
 import org.example.utils.Utility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ public class Archive {
 
 
     public static void main(String[] args) throws IOException {
+        final Logger logger = LoggerFactory.getLogger(Archive.class);
 
         for (int i = 0; i < 2; i++) {
             Utility.addElementsMagazine(storage);
@@ -40,12 +43,16 @@ public class Archive {
         Utility.findByAuthor("author", storage);
 
 
-        System.out.println("Save to disk");
-        Utility.saveToDisk(storage);
+        try {
+            System.out.println("Save to disk");
+            Utility.saveToDisk(storage);
 
-        System.out.println("From Disk");
-        List<Storage> storageDisk = Utility.findToDisk();
-        storageDisk.forEach(System.out::println);
+            System.out.println("From Disk");
+            Utility.findToDisk(storage);
+            storage.forEach(System.out::println);
+        } catch (IOException er) {
+            logger.error("An error occurred: ", er);
+        }
 
 
     }

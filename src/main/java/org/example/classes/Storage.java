@@ -3,10 +3,10 @@ package org.example.classes;
 import java.util.Random;
 
 public abstract class Storage {
-    private long codISBN;
-    private String title;
-    private int yearPublication;
-    private int numPages;
+    protected long codISBN;
+    protected String title;
+    protected int yearPublication;
+    protected int numPages;
 
     public Storage(String title, int numPages) {
         Random rnd = new Random();

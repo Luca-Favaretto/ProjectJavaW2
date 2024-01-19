@@ -19,6 +19,12 @@ public class Utility {
     static BiPredicate<String, Book> correctAuthor = (autor, elem) -> elem.getAuthor().equals(autor);
 
     public static Periodicity getRandomEnum(Class<Periodicity> enumeration) {
+//        public static <T extends Enum<?>> T getRandomEnum(Class<T> enumeration) {
+//            Random random = new Random();
+//            T[] values = enumeration.getEnumConstants();
+//            return values[random.nextInt(values.length)];
+//        }
+
         Random random = new Random();
         Periodicity[] values = enumeration.getEnumConstants();
         return values[random.nextInt(values.length)];
@@ -125,11 +131,12 @@ public class Utility {
         FileUtils.writeStringToFile(file, toWrite.toString(), "UTF-8");
     }
 
-    static public List<Storage> findToDisk() throws IOException {
+    static public List<Storage> findToDisk(List<Storage> storage) throws IOException {
+        storage.clear();
         File file = new File("prova.txt");
         String fileString = FileUtils.readFileToString(file, "UTF-8");
         List<String> splitElementString = Arrays.asList(fileString.split("#"));
-        List<Storage> storage = new ArrayList<>();
+
 
         splitElementString.stream().forEach(stringa -> {
             String[] productInfos = stringa.split("@");
